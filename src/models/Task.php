@@ -1,6 +1,6 @@
 <?php
 
-class Tasks
+class Task
 {
     private $executor_id;
     private $customer_id;
@@ -82,5 +82,5 @@ class Tasks
     }
 }
 
-$task = new Tasks('customer', 'status_new');
+$task = new Task('customer', 'status_new');
 var_dump(assert($task->getNextStatus('action_new') == Tasks::STATUS_FAILED, 'action_new'));
