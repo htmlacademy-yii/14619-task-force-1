@@ -1,9 +1,7 @@
 <?php
 
-require_once 'vendor/autoload.php';
-
 use taskforce\models\task\Task;
 
-$task = new Task('customer', 'status_new');
+require_once 'vendor/autoload.php';
 
-print_r(assert($task->getNextStatus('action_new') == Task::STATUS_FAILED, 'action_new'));
+$task = new Task('customer', 'status_new');
