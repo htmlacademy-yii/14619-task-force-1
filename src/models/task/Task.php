@@ -1,5 +1,7 @@
 <?php
 
+namespace taskforce\models\task;
+
 class Task
 {
     private $executor_id;
@@ -81,6 +83,3 @@ class Task
         return null;
     }
 }
-
-$task = new Task('customer', 'status_new');
-var_dump(assert($task->getNextStatus('action_new') == Tasks::STATUS_FAILED, 'action_new'));
