@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 - Студент: [Алла Вараксина](https://up.htmlacademy.ru/yii/1/user/14619).
-- Наставник: [Без наставника](https://up.htmlacademy.ru/yii/1/user/14619).
+- Наставник: [Сергей Сергеев](https://htmlacademy.ru/profile/asamat).
 
 ---
 
