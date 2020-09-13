@@ -1,15 +1,6 @@
 {
-    "name": "lightburst7/14619-task-force-1",
-    "authors": [
-        {
-            "name": "AcidBurst7",
-            "email": "varaksinalla@rambler.ru"
-        }
-    ],
+    "name": "lightburst7/taskforce.local",
     "require": {},
-    "require-dev": {
-
-    },
     "autoload": {
       "psr-4": {
         "taskforce\\": "src/"
