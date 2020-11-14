@@ -3,7 +3,10 @@
 
 namespace taskforce\models\actions;
 
-
+/**
+ * Class ActionRefuse
+ * @package taskforce\models\actions
+ */
 class ActionRefuse extends AbstractAction
 {
 
