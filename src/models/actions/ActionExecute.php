@@ -4,16 +4,17 @@
 namespace taskforce\models\actions;
 
 
-class ActionCreate extends AbstractAction
+class ActionExecute extends AbstractAction
 {
+
     function getName(): string
     {
-        return "Создать";
+        return "Выполнить";
     }
 
     function getInternalName(): string
     {
-        return "action_create";
+        return "action_execute";
     }
 
     function checkRole($executorId, $userId): bool

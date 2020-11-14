@@ -10,5 +10,5 @@ abstract class AbstractAction
 
     abstract function getInternalName() : string;
 
-    abstract function checkRole() : bool;
+    abstract function checkRole($executorId, $userId) : bool;
 }
