@@ -2,6 +2,10 @@
 
 namespace taskforce\models\task;
 
+/**
+ * Class Task
+ * @package taskforce\models\task
+ */
 class Task
 {
     private $executor_id;
