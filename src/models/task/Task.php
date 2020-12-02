@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace taskforce\models\task;
 
 use taskforce\models\action\ActionCancel;
@@ -104,7 +106,7 @@ class Task
      * Получение списка действий для ролей
      * @return array[]
      */
-    private function getActionsMap() : array
+    private function getActionsMap(): array
     {
         return [
             self::RULE_CUSTOMER => [
@@ -123,7 +125,7 @@ class Task
      * @param $status
      * @return mixed|null
      */
-    public function getUserActions($status)
+    public function getUserActions($status): ?array
     {
         $currentUserRole = $this->getCurrentUserRole();
         $actions = $this->getActionsMap();
@@ -152,7 +154,7 @@ class Task
      * @param $action
      * @return string|null
      */
-    public function getNextStatus($action)
+    public function getNextStatus($action): ?array
     {
         if(array_key_exists($this->current_user_role, self::STATUSES_MAP)) {
             if (array_key_exists($action, self::STATUSES_MAP[$this->current_user_role])) {
