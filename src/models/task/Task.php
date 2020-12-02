@@ -15,24 +15,24 @@ class Task
     const STATUS_EXECUTED = 'status_executed';
     const STATUS_FAILED = 'status_failed';
 
+    const RULE_EXECUTOR = 'executor';
+    const RULE_CUSTOMER = 'customer';
+
     const ACTION_CREATE = 'action_create';
     const ACTION_CANCEL = 'action_cancel';
     const ACTION_RESPOND = 'action_respond';
     const ACTION_EXECUTE = 'action_executed';
     const ACTION_REFUSE = 'action_refuse';
 
-    const RULE_EXECUTOR = 'executor';
-    const RULE_CUSTOMER = 'customer';
-
     const ACTIONS_MAP = [
+        self::RULE_CUSTOMER => [
+            self::STATUS_NEW => [self::ACTION_CANCEL],
+            self::STATUS_WORK => [self::ACTION_EXECUTE]
+        ],
         self::RULE_EXECUTOR => [
             self::STATUS_NEW => [self::ACTION_RESPOND],
             self::STATUS_WORK => [self::ACTION_REFUSE]
         ],
-        self::RULE_CUSTOMER => [
-            self::STATUS_NEW => [self::ACTION_CANCEL],
-            self::STATUS_WORK => [self::ACTION_EXECUTE]
-        ]
     ];
 
     const STATUSES_MAP = [
