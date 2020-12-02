@@ -11,7 +11,7 @@ use taskforce\models\action\ActionRefuse;
 use taskforce\models\action\ActionRespond;
 
 /**
- * Class Task
+ * Class Task - класс "Задание"
  * @package taskforce\models\task
  */
 class Task
