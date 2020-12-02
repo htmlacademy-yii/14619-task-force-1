@@ -16,7 +16,7 @@ class ActionExecute extends Action
      * @param int $idCurrentUser - текущий пользователь
      * @return bool
      */
-    protected function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser): bool
+    public function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser): bool
     {
         return !empty($idCurrentUser) && !empty($idCustomer) && $idCurrentUser === $idCustomer;
     }

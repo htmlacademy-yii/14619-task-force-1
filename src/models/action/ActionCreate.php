@@ -16,7 +16,7 @@ class ActionCreate extends Action
      * @param int $idCurrentUser - текущий пользователь
      * @return bool
      */
-    protected function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser): bool
+    public function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser): bool
     {
         // Чтобы создать задание необходимо быть авторизованным в системе.
         return  $idCurrentUser !== 0;

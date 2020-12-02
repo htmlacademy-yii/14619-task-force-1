@@ -16,6 +16,7 @@ abstract class Action
     public function __construct(string $name, string $innerName)
     {
         $this->name = $name;
+        $this->innerName = $innerName;
     }
 
     public function getName() : string {
@@ -33,5 +34,5 @@ abstract class Action
      * @param int $idCurrentUser
      * @return bool
      */
-    abstract protected function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser) : bool;
+    abstract public function checkRights(int $idExecutor, int $idCustomer, int $idCurrentUser) : bool;
 }
