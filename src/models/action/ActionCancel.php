@@ -11,7 +11,7 @@ namespace taskforce\models\action;
 class ActionCancel extends Action
 {
     /**
-     * Проверка прав для выполнения действия
+     * Проверка прав для выполненcheckRightsия действия
      * @param int $idExecutor - исополнитель задания
      * @param int $idCustomer - заказчик задания
      * @param int $idCurrentUser - текущий пользователь
