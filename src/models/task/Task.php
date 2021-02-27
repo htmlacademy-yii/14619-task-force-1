@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace taskforce\models\task;
 
+use taskforce\exceptions\task\ActionNotFoundException;
+use taskforce\exceptions\task\StatusNotFoundException;
+use taskforce\exceptions\user\UserRuleNotFoundException;
 use taskforce\models\action\ActionCancel;
 use taskforce\models\action\ActionCreate;
 use taskforce\models\action\ActionExecute;
@@ -37,17 +40,6 @@ class Task
     const ACTION_EXECUTE = 'action_execute';
     const ACTION_REFUSE = 'action_refuse';
 
-    /*const ACTIONS_MAP = [
-        self::RULE_CUSTOMER => [
-            self::STATUS_NEW => [self::ACTION_CANCEL],
-            self::STATUS_WORK => [self::ACTION_EXECUTE]
-        ],
-        self::RULE_EXECUTOR => [
-            self::STATUS_NEW => [self::ACTION_RESPOND],
-            self::STATUS_WORK => [self::ACTION_REFUSE]
-        ],
-    ];*/
-
     const STATUSES_MAP = [
         self::RULE_EXECUTOR => [
             self::ACTION_CREATE => self::STATUS_NEW,
@@ -66,8 +58,32 @@ class Task
         $this->executor_id = 1;
         $this->customer_id = 2;
         $this->current_user_id = 2;
+
+        if (!in_array($user_rule, $this->getUserRules())) {
+            throw new UserRuleNotFoundException("Такой роли пользователя не существует.");
+        }
+
         $this->current_user_role = $user_rule;
+
+        if (!in_array($current_status, $this->getStatuses())) {
+            throw new StatusNotFoundException("Такого статуса задачи не существует.");
+        }
+
         $this->current_status = $current_status;
+    }
+
+    private function getUserRules(): array {
+        return [self::RULE_EXECUTOR, self::RULE_CUSTOMER];
+    }
+
+    private function getActions(): array {
+        return [self::ACTION_CANCEL, self::ACTION_CREATE, self::ACTION_EXECUTE,
+            self::ACTION_REFUSE, self::ACTION_RESPOND];
+    }
+
+    private function getStatuses(): array {
+        return [self::STATUS_CANCELED, self::STATUS_EXECUTED, self::STATUS_FAILED,
+            self::STATUS_NEW, self::STATUS_WORK];
     }
 
     /**
@@ -131,22 +147,24 @@ class Task
         $actions = $this->getActionsMap();
 
         // поиск текущей роли в списке
-        if(array_key_exists($currentUserRole, $actions)) {
-            // поиск статуса в списке действий
-            if (array_key_exists($status, $actions[$currentUserRole])) {
-                $statusActions = $actions[$currentUserRole][$status];
+        if(!array_key_exists($currentUserRole, $actions)) {
+            throw new UserRuleNotFoundException("Такой роли пользователя не существует.");
+        }
 
-                for ($i = 0; $i < count($statusActions); $i++) {
-                    if (!$statusActions[$i]->checkRights($this->executor_id, $this->customer_id, 2)) {
-                        unset($statusActions[$i]);
-                    }
-                }
+        // поиск статуса в списке действий
+        if (!array_key_exists($status, $actions[$currentUserRole])) {
+            throw new UserRuleNotFoundException("Такого статуса задачи не существует.");
+        }
 
-                return array_filter($statusActions);
+        $statusActions = $actions[$currentUserRole][$status];
+
+        for ($i = 0; $i < count($statusActions); $i++) {
+            if (!$statusActions[$i]->checkRights($this->executor_id, $this->customer_id, 2)) {
+                unset($statusActions[$i]);
             }
         }
 
-        return null;
+        return array_filter($statusActions);
     }
 
     /**
@@ -156,12 +174,14 @@ class Task
      */
     public function getNextStatus($action): ?array
     {
-        if(array_key_exists($this->current_user_role, self::STATUSES_MAP)) {
-            if (array_key_exists($action, self::STATUSES_MAP[$this->current_user_role])) {
-                return self::STATUSES_MAP[$this->current_user_role][$action];
-            }
+        if(!array_key_exists($this->current_user_role, self::STATUSES_MAP)) {
+            throw new UserRuleNotFoundException("Такой роли пользователя не существует.");
         }
 
-        return null;
+        if (!array_key_exists($action, self::STATUSES_MAP[$this->current_user_role])) {
+            throw new ActionNotFoundException("Такого действия не существует.");
+        }
+
+        return self::STATUSES_MAP[$this->current_user_role][$action];
     }
 }
